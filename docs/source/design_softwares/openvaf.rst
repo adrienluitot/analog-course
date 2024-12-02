@@ -34,33 +34,28 @@ If the printed version is older 1.80, run and follow the command below to instal
 
 Getting the sources
 -------------------
-Go in your ``tools_sources`` directory, to clone OpenVAF's sources.
-
-Sadly `OpenVAF <https://github.com/pascalkuthe/OpenVAF>`_ stopped being officially maintained a year ago. And it is not
-compatible anymore with recent LLVM/Clang versions. So we will need to use a fork compatible with LLVM 18. However, if
-you are using LLVM 15 or 16, you can probably stick the original version.
+Go in your ``tools_sources`` directory, to clone OpenVAF's sources. We will use a LLVM18 compatible version, however if
+you use LLVM 15/16, it might not work and you should replace the repo in the next command by this one instead:
+``https://github.com/pascalkuthe/OpenVAF``.
 
 .. code-block:: shell
 
-    git clone https://github.com/Kreijstal/OpenVAF
-    cd OpenVAF
-    git switch llvm18reloaded
-
-The ``git switch`` command allows us to use a different branch from the git repository.
-
+    git clone https://github.com/OpenVAF/OpenVAF-Reloaded
+    cd OpenVAF-Reloaded
 
 
 OpenVAF compilation
 -------------------
 
-Warning: If you installed a particular version of ``rustc`` you will have to use the command ``cargo-1.80`` instead of
-just ``cargo``.
+.. warning::
+    If you installed a particular version of ``rustc`` you might have to use the command ``cargo-1.80`` instead of just
+    ``cargo``.
 
 Now we can start the compilation:
 
 .. code-block:: shell
 
-    cargo build
+    cargo build --release
 
 
 
