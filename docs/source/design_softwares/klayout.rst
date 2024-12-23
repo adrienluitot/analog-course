@@ -69,12 +69,15 @@ Installation
 PDK installation for Klayout
 ----------------------------
 
-We will link the PDK's technologies files to klayout directory:
+We will link the PDK's technology files to klayout directory:
 
 .. code-block:: shell
 
     mkdir -p  ~/.klayout/tech
     ln -s ~/microelectronics/PDK/IHP/IHP-Open-PDK/ihp-sg13g2/libs.tech/klayout/tech ~/.klayout/tech/ihp-sg13g2
+    ln -s ~/.klayout/tech/ihp-sg13g2/sg13g2.lyp ~/.klayout/tech/
+    mkdir -p  ~/.klayout/python
+    ln -s ~/microelectronics/PDK/IHP/IHP-Open-PDK/ihp-sg13g2/libs.tech/klayout/python/* ~/.klayout/python/
 
 
 Testing KLayout

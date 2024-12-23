@@ -43,6 +43,7 @@ Contents
    design_tutorial/schematic
    design_tutorial/simulation
    design_tutorial/layout
+   design_tutorial/charac_inductor
    design_tutorial/drc
    design_tutorial/lvs
 

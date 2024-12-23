@@ -23,7 +23,7 @@ If Qucs-S is not directly available with your OS, you can :ref:`install it from 
     echo 'deb http://download.opensuse.org/repositories/home:/ra3xdh/xUbuntu_24.04/ /' | sudo tee /etc/apt/sources.list.d/home:ra3xdh.list
     curl -fsSL https://download.opensuse.org/repositories/home:ra3xdh/xUbuntu_24.04/Release.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/home_ra3xdh.gpg > /dev/null
     sudo apt update
-    sudo apt install qucs-s ngpsice
+    sudo apt install qucs-s ngspice
 
 
 
@@ -82,10 +82,9 @@ We will now test if Qucs-S works with the PDK. First we need to setup the enviro
 .. code-block:: shell
 
     echo 'export PDK_ROOT="$HOME/microelectronics/PDK/IHP/IHP-Open-PDK"' >> ~/.bashrc
-    echo 'PDK="ihp-sg13g2"' >> ~/.bashrc
+    echo 'export PDK="ihp-sg13g2"' >> ~/.bashrc
     export PDK_ROOT="$HOME/microelectronics/PDK/IHP/IHP-Open-PDK"
     export PDK="ihp-sg13g2"
-
 
 Then we can open Qucs-s:
 
