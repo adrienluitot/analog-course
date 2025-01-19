@@ -49,18 +49,14 @@ and the simulation port. You can run the simulation with the bare minimum like t
 
 
 
-Starting simulation
--------------------
+Starting 1-port simulation
+--------------------------
+
+To run the simulation run the downloaded script like this:
 
 .. code-block:: shell
 
     python3 ihp_openems_simu.py -P tm1:-14,0,14,10:x:50 test_inductor_polygons.py
-
-If you want to know more about the script and its parameters you can run:
-
-.. code-block:: shell
-
-    python3 ihp_openems_simu.py --help
 
 | A port is specified with the parameter ``-P`` like this:
 | ``Material : Lower Left X, Lower Left Y, Upper Right X, Upper Right Y : Direction : Impedance``
@@ -68,6 +64,13 @@ If you want to know more about the script and its parameters you can run:
 | For the the points of the port, we use the points we found in the layout: ``(-14, 0)`` and ``(14, 10)``, you only
     have to adapt this on your side.
 | The port will propagate following the ``x`` axis and we use a ``50`` Ohm port.
+| ``test_inductor_polygons.py`` is the path to the file we want to simulate.
+
+If you want to know more about the script and its parameters you can run:
+
+.. code-block:: shell
+
+    python3 ihp_openems_simu.py --help
 
 By default, the simulation will use a 1um resolution mesh, and simulate form 0Hz to 30GHz.
 
@@ -127,13 +130,10 @@ of your inductor. You should have something like this:
   :alt: Simulation results plot 
   :height: 200px
 
-With the text result in the terminal, we can see that at 2.45 GHz, our inductor as a value of ``3.86nH``
+With the text result in the terminal, we can see that at 2.45 GHz, our inductor as a value of ``3.86nH``.
 
+The results are taken from the directory ``sim_out/test_inductor_polygons``. If you ran the previous command with ``-p``
+as explained, you will find a ``.s1p`` file in this directory. This file will then be used in Qucs-S (or any other
+software) to simulate with the "real" inductor behaviour.
 
-
-
-.. Exporting S-parameters
-.. ----------------------
-
-.. TODO: 
 
