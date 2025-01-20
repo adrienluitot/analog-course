@@ -97,7 +97,7 @@ clicking on the button |klayout_instance_btn|. In the bottom left panel you can 
 Your window will be slightly different, you might have more or less cells. Make sure you have at least these cells:
 cmim, nmos, rhigh, rppd, simple_inductor (or inductor2)
 
-| For the LNA we need 4 ``cmim``, 3 ``nmos``, 1 ``rhigh``,  2 ``rppd`` and 3 ``simple_inductor``.
+| For the LNA we need 5 ``cmim``, 3 ``nmos``, 1 ``rhigh``,  1 ``rppd`` and 3 ``simple_inductor``.
 | Select the component you want to instanciate in the list then click "OK". After that, click in the layout editor as
   many times as you need the component. You might need to dezoom to see something, for this, simply scroll down with
   your mouse.
@@ -139,8 +139,121 @@ To modify a PCell, you can simply to double click on the targeted PCell. This wi
 
 In our case wee will use these values:
 
-.. TODO: add one (or more, like 1 per component type) table with the components and their parameters
+Used Parameters
+^^^^^^^^^^^^^^^
 
+.. list-table:: Inductors parameters
+   :widths: 10 10 10 20 20
+   :header-rows: 1
+
+   * - Name
+     - Width
+     - Space
+     - Number of turns
+     - Expected value
+   * - Ls
+     - 5u
+     - 2.1u
+     - 3
+     - ~1.07nH
+   * - Li
+     - 4.3u
+     - 4u
+     - 6
+     - ~5.92nH
+   * - LL
+     - 4.6u
+     - 4.1u
+     - 5
+     - ~4.26nH
+
+.. note::
+  For the inner diameter or "The distance in the center of the inductor", we leave 0. This will automatically use 
+  the minimum diameter.
+
+
+.. list-table:: Capacitor parameters
+   :widths: 10 10 10 15
+   :header-rows: 1
+
+   * - Name
+     - Width
+     - Length
+     - Expected value
+   * - Cin*
+     - 57.74u
+     - 57.74u
+     - 5p
+   * - Ci
+     - 20.53u
+     - 20.53u
+     - 632f
+   * - Cout 1
+     - 29.44u
+     - 29.44u
+     - ~4.26nH
+   * - Cout 2
+     - 44.72u
+     - 44.72u
+     - ~3pF
+
+.. note::
+  \*: We instanciate 2 capacitors of 5pF for Cin that we will connect in parallel. An single capacitor of 10pF would be
+  to big in layout.
+
+
+.. list-table:: NMOS parameters
+   :widths: 10 10 15 10 15 15
+   :header-rows: 1
+
+   * - Name
+     - Width
+     - Single Width
+     - Length
+     - Number of Gates
+     - Multplier
+   * - MPol = M0 = M1
+     - 45u
+     - 1u
+     - 130n
+     - 45
+     - 1
+
+.. list-table:: Resistors parameters
+   :widths: 10 10 15 10 15 15
+   :header-rows: 1
+
+   * - Name
+     - Type*
+     - Width
+     - Length
+     - Bends
+     - Expected value
+   * - RPol
+     - Rppd
+     - 10u
+     - 26.17u
+     - 0
+     - 680Ω
+   * - R RF
+     - Rhigh
+     - 10u
+     - 36.62n
+     - 0
+     - 5kΩ
+
+.. note::
+  \*: The different types are different PCells, not an actual parameter.
+
+  The DRM recommends a Width >= 2µm for a better accuracy. We chose a quite bigger width to reduce the mismatch as much
+  as we can. Also because even with these dimensions, it's pretty small compared to the inductors.
+
+
+Once you have configured all your PCells you should end up with something like this:
+
+.. image:: ../images/klayout_pcells_sized.png
+  :alt: KLayout pcells with the right parameters
+  :height: 500px
 
 
 
@@ -148,4 +261,5 @@ Doing a Floorplan
 -----------------
 
 The Floorplan is an very important step in a layout...
+
 .. TODO: finish :)
