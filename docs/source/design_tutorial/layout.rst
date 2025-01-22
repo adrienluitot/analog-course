@@ -1,6 +1,13 @@
 Layout
 ======
 
+.. What is a layout?
+.. -----------------
+
+.. Explain: goal, masks, link to the schematic
+
+.. TODO...
+
 Setting up Klayout
 ------------------
 
@@ -24,6 +31,8 @@ Instanciate first PCell
 -----------------------
 
 Now we can create the layout with "File > New Layout" (press "OK" with default parameters). 
+
+.. TODO: grid to 0.005um
 
 .. |klayout_instance_btn| image:: ../images/klayout_instance_btn.png
     :height: 40px
@@ -113,6 +122,8 @@ You should have something like that:
 Indeed, the NMOS and resistors are quite small compared to the capacitors, and even worse compare to the inductor. This
 will be one of the difficulties to manage with this design.
 
+.. TODO: RF Pads ?
+
 
 
 Configuring the PCells
@@ -183,15 +194,15 @@ Used Parameters
    * - Cin*
      - 57.74u
      - 57.74u
-     - 5p
+     - ~5p
    * - Ci
      - 20.53u
      - 20.53u
-     - 632f
+     - ~632f
    * - Cout 1
      - 29.44u
      - 29.44u
-     - ~4.26nH
+     - ~1.3pF
    * - Cout 2
      - 44.72u
      - 44.72u
@@ -260,6 +271,72 @@ Once you have configured all your PCells you should end up with something like t
 Doing a Floorplan
 -----------------
 
-The Floorplan is an very important step in a layout...
+The Floorplan is an very important step in a layout, it is the base of the rest of ower work. A bad Floorplan will
+very likely lead to a bad layout.
+
+The Floorplan consist of placing our components to achieve the best compromise between space and performance, while 
+taking in account the rules of the DRM and generic global rules. This means we need to keep in mind our schematic.
+In general we want to have the shortest traces, because integrated traces are very resistive due to their size.
+It is rarely a good idea to try to reproduce the schematic in layout, for instance, this is bad:
+
+.. image:: ../images/klayout_schematic_fp.png
+  :alt: KLayout schematic like floorplan
+  :height: 300px
+
+However, it might help to visualise/identify our components. Mostly with not-snynced tools like Qucs-S and Klayout, it
+not so easy to see which is which and how to connect them.
+
+| Before we go further, we will explain a little the DRM, Design Rule Manual. This is your layout bible, it tells you
+  everything you can do, can't do, have to do in your layout. Each technology/process at its own DRM. IHP's Open PDK
+  DRM is accessible at this url: `<https://github.com/IHP-GmbH/IHP-Open-PDK/blob/main/ihp-sg13g2/libs.doc/doc/SG13G2_os_layout_rules.pdf>`_
+| For example, if you jump to the section "5.16 Metal1" (page 35) you will have all the design rules for the metal 1: 
+  minimum width, minimum spacing...
+
+Hopefully, it is not necessary to read the whole DRM, you should only read the specific section when needed. Also,
+the DRC (covered in a next section) will help you find DRM errors, however, it's better to avoid design mistake in
+advance, in order to save some time.
+
+The LNA layout is in one hand pretty simple because it has only few components, but in other other hand, the size of
+the inductor makes it harder to optimize.
+
+In general, a bloc like the LNA will be part of a bigger chip/bloc, in this case, the shape of the floorplan is
+directed by the upper block. In our case, we designed it in standalone, so we don't have to follow anything.
+We also have to take the pads in account, in our case we have 2 RF pads for IN and OUT which also embedd VSS and
+1 PAD for VDD.
+
+We could align the inductors and put the other devices under, like that:
+
+.. image:: ../images/klayout_fp_meh.png
+  :alt: KLayout not so good floorplan
+  :height: 300px
+
+But you can see that there is a lot of unused space in the middle and between around the VDD pad. The text on the pads
+are just use as reference to help us visualise, they have no impact for the moment. This floor plan has a size of 
+~ 847µm x 543µm, which gives an area of ~ 0.460µm².
+
+If make a less linear floorplan and try to compensate the holes with one of the inductor we can achieve something like
+that:
+
+.. image:: ../images/klayout_fp_good.png
+  :alt: KLayout good floorplan
+  :height: 400px
+
+We still have some empty zones, but it's much better, we will stick with this floorplan. We now have an size of 
+~ 597µm x 662µm, meaning a surface of ~ 0.395µm².
+
+.. tip::
+  It is better to leave bigger spaces between devices during floorplan, it's better to start pessimistic. It's always
+  easier to bring devices closer a posteriori than to move away.
+
+
+
+Routing
+-------
+
+Now that we are happy with our floorplan, we can start the routing.
+
+
+
+.. TODO: Dummies ?
 
 .. TODO: finish :)
