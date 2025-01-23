@@ -213,8 +213,8 @@ This will allow us to tune Re(Z22) and Im(Z22) easily and match the output at 50
 The capacitors in the divider are calculated with the following formulas : 
 
 .. math::
-    C_s &= (C_0*C_2)/(C_2-C_0) \\
-    C_p &= C_L * sqrt(R_L/50)
+    C_s &= \frac{C_0 \times C_2}{C_2 - C_0} \\
+    C_p &= C_L \times \sqrt{\frac{R_L}{50}}
 
 Adding the capacivite divider also allows us to remove the isolation capacitor at the output (added while 
 designing Ls).
@@ -323,7 +323,7 @@ can use the MIM capacitor real model. |br|
 The process formula provided by IHP for MIM capacitors is used to design them : 
 
 .. math::
-    Area Capacitance = (C_{measure}/Area)
+    \text{Area}_\text{capacitance} = \frac{C_\text{measure}}{\text{Area}}
 
 We are assuming that the capacitors are following a square shape. It allows us to put the same dimensions 
 in width and length. 
@@ -335,8 +335,8 @@ The IHP PDK provides three different resistor models depending on their value an
 models have the same formula to calculate the resistor length : 
 
 .. math::
-    W &= {fixed} \\
-    L &= (R*(W+deltaW))/R_{sheet}
+    W &= \text{fixed} \\
+    L &= \frac{R \times (W + \Delta W)}{R_{sheet}}
 
 To find a good resistor value, fix a resistor width first. Then, depending on the model, retrieve the sheet 
 resistance and line width delta. With these three values the resistor length can be calculated.
