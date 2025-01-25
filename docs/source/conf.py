@@ -3,8 +3,8 @@
 # -- Project information
 
 project = 'Analog Course'
-copyright = '2024, Adrien Luitot'
-author = 'Adrien Luitot'
+copyright = '2024, Adrien Luitot & Arnaud Gabas'
+author = 'Adrien Luitot & Arnaud Gabas'
 
 release = '0.1'
 version = '0.1.0'

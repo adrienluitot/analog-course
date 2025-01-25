@@ -330,13 +330,94 @@ We still have some empty zones, but it's much better, we will stick with this fl
 
 
 
-Routing
--------
+Routing and precise placement
+-----------------------------
 
 Now that we are happy with our floorplan, we can start the routing.
 
+We generally start with the power rails, here the layout is fairly small so we can keep with only 2 rails, one for 
+VDD, and the other for VSS.
+According to our floorplan, it's more logical to have the VDD on lower side, close to the VDD pad. And VSS on the
+upper side closer to the VSS pads and to the inductor Ls.
+
+During this step we can also join more precisely our devices. We can stick the two Cin capacitors, the inductors...
+But we still need to take in account the DRM.
+
+In addition to the power rails, we can also route the importants paths. For instance the input and output traces and
+the trace between the output capcitors.
+
+During the routing part, we can also update the floorplan and the general placements according to what we discover.
+Here for example, it was actually better to place the VDD pad on the left of the lower inductor. This allows to have
+the VDD rail shorter (less parasitic resistance and capacitance) to the devices and the tank inductor closer to the
+output.
+
+This give us a layout that looks like that:
+
+.. image:: ../images/klayout_routing_rails.png
+  :alt: KLayout FP update and rails routing
+  :height: 400px
+
+During this step we also reduced the unused space in the middle by putting the input capacitors horizontally.
 
 
-.. TODO: Dummies ?
+
+First DRC
+---------
+
+In general, it is a good idea to regularly run a DRC during the layout process. This avoids bad suprises at the end.
+Now that we have close components, metal traces... it is a good moment for a first DRC.
+
+In Klayout it is pretty straight forward. You simply have to go in "Tools > DRC" and then click on the
+``sg13g2_maximal.lydrc``.
+
+This will run the DRC, you will have to wait a little, then a window will open, you should have someting like this:
+
+.. image:: ../images/klayout_drc_window.png
+  :alt: KLayout DRC update window
+  :height: 300px
+
+On the picture above, the number 53 represents the number of DRC errors, this number will probably be different with
+your layout. Don't panic if the number is very high, sometimes it is the same error repeated several times and is easy
+to fix. Detected errors will be in black with the number of encounters on the right, whereas non-present errors will
+be in green.
+
+If you scroll through these errors, you will see that they all correspond to a rule in the DRM. A rule is always formed
+with the layer first then the reference of the rule, separated by a point. For example if we take ``AFil.g`` we see in
+the DRM (p. 24) that ``AFil`` stands for Activ:filler and the ``.g`` refers to a minimum density needed. You will
+probably have this error at this point, fillers and density will be covered later. For the moment just ignore minimum
+density and coverage they will be fixed at the end of the process, they are often (but not always) referenced as ``.g``,
+``.j`` and ``.h``. But take care of maximum density errors, these have to be fix as soon as possible, like other DRC
+errors.
+
+The inductors will certainly generate errors like ``OffGrid.XXXXX_nofill`` or ending with ``_block``. For the OffGrid
+errors and some other, the layer is given after the point. OffGrid means that we don't respect IHP's 0.005µm
+manufacturing grid. For most layers, this is a probably that we need to fix, it would otherwise lead into manufacturing
+uncertainties. But here, these layers won't be used for manufacturing, they are only used for the filling and 
+design parts, it's the kind of error we can ignore.
+
+.. TODO: verify OffGrid no fill can be waived/ignored
+
+If you have an error that you think is legit and needs to be fixed, you can click on the error (in black). In the DRC
+window you will have the markers on the right, you will have one marker per places the error is encountered in your 
+layout. You can click on a marker, the Klayout's editor window will zoom to the place the erros was found. You can
+then fix it and re run the DRC to make sure you properly fixed it.
+
+Most common DRC errors are min spaces and min enclosures. Every error has it's own fixes, we can't cover all the errors
+here, it is just impossible, it depends too much on the layout. The more you will do layouts, the less you will do 
+DRC errors beforehand and the easier it will be to fix the errors. So just practice!
+
+
+
+
+
+
+.. TODO: sealring
+
+.. TODO: Dummies for mos ?
+.. TODO: guard ring for resistors ?
+
+.. TODO: MOS guard ring
+.. TODO: filling
+
 
 .. TODO: finish :)
